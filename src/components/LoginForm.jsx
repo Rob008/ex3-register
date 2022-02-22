@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import {
     Form,
     Input,
@@ -13,20 +13,46 @@ import {
   } from 'antd';
 import 'antd/dist/antd.css'
 import "../style.css"
+import { Navigate, useNavigate } from "react-router-dom";
+
 
 export const LoginForm = () => {
 
-    const logIn=()=>{
-        alert("You are Login")
-    }
-    
+    const [user,setUser]=useState([]);
+
+    useEffect(()=>{
+        const json = localStorage.getItem("data");
+        
+        const loadedUsers = JSON.parse(json);
+        if (loadedUsers) {
+            setUser(loadedUsers);
+        }
+    },[]);
+
   const onFinish = (values) => {
     console.log('Success:', values);
+    const json = localStorage.getItem("data");
+    const loadedUsers = JSON.parse(json);
+    const storgeUsername = loadedUsers.map(values=>values.nickname);
+    if (loadedUsers.map(values=>values.nickname==values.username)) {
+        let passIndex = storgeUsername.indexOf(values.username);
+            if (loadedUsers[passIndex].password==values.password) {
+                alert("You Are Login")
+            }
+            else alert("Wrong Password")
+    }
+    else alert("Wrong UserName")
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+
+  const navigate = useNavigate();
+
+  const handleSubmit =()=>{
+    navigate("/registration");
+  }
 
   return (
     <div class = "contain">
@@ -88,8 +114,11 @@ export const LoginForm = () => {
           span: 16,
         }}
       >
-        <Button type="primary" htmlType="submit" onClick={logIn}>
+        <Button type="primary" htmlType="submit" >
           Submit
+        </Button>
+        <Button type="primary" htmlType="submit" onClick={handleSubmit} id="registerButton">
+          Registration
         </Button>
       </Form.Item>
     </Form>

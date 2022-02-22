@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import {
     Form,
     Input,
@@ -13,6 +13,9 @@ import {
   } from 'antd';
 import 'antd/dist/antd.css'
 import "../style.css"
+import { Navigate, useNavigate } from "react-router-dom";
+
+
 
 
   const { Option } = Select;
@@ -50,15 +53,31 @@ const tailFormItemLayout = {
   export const RegistrationForm = () => { 
     const [form] = Form.useForm();
   
-    const onFinish = (values) => {
-      console.log('Received values of form: ', values);
-    };
-    let checking = 0;
-    const registred=()=>{
-        if (checking >=2) {
-            alert("You are Registerd")
+    const [user,setUser]=useState([]);
+    useEffect(()=>{
+        const json = localStorage.getItem("data");
+        const loadedUsers = JSON.parse(json);
+        if (loadedUsers) {
+            setUser(loadedUsers);
         }
-        else alert ("Something is Error")
+    },[]);
+    useEffect(()=>{
+       const json = JSON.stringify(user);
+       localStorage.setItem("data",json);
+    },[user]);
+
+    const onFinish = (values) => {
+      setUser([...user].concat(values));
+      navigate("/login");
+    };
+    console.log(user);
+
+    let checking = 0;
+
+    const navigate = useNavigate();
+
+    const handleClick=()=>{
+        
     }
   
     const prefixSelector = (
@@ -91,12 +110,12 @@ const tailFormItemLayout = {
             {
               type: 'email',
               message: 'The input is not valid E-mail!',
-              
             },
             {
               required: true,
               message: 'Please input your E-mail!',
             },
+            checking+=1,
           ]}
         >
           <Input />
@@ -110,6 +129,7 @@ const tailFormItemLayout = {
               required: true,
               message: 'Please input your password!',
             },
+            checking+=1,
           ]}
           hasFeedback
         >
@@ -126,10 +146,11 @@ const tailFormItemLayout = {
               required: true,
               message: 'Please confirm your password!',
             },
+            checking+=1,
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve(checking++);
+                  return Promise.resolve();
                 }
   
                 return Promise.reject(new Error('The two passwords that you entered do not match!'));
@@ -150,6 +171,7 @@ const tailFormItemLayout = {
               message: 'Please input your nickname!',
               whitespace: true,
             },
+            checking+=1,
           ]}
         >
           <Input />
@@ -165,13 +187,15 @@ const tailFormItemLayout = {
               required: true,
               message: 'Please input your phone number!',
             },
+            checking+=1,
           ]}
         >
           <Input
             addonBefore={prefixSelector}
             style={{
               width: '100%',
-            }}
+            }
+        }
           />
         </Form.Item>
   
@@ -183,6 +207,7 @@ const tailFormItemLayout = {
               required: true,
               message: 'Please select gender!',
             },
+            checking+=1,
           ]}
         >
           <Select placeholder="select your gender">
@@ -197,7 +222,7 @@ const tailFormItemLayout = {
           rules={[
             {
               validator: (_, value) =>
-                value ? Promise.resolve(checking++) : Promise.reject(new Error('Should accept agreement')),
+                value ? Promise.resolve(checking+=1) : Promise.reject(new Error('Should accept agreement')),
             },
           ]}
           {...tailFormItemLayout}
@@ -207,13 +232,13 @@ const tailFormItemLayout = {
           </Checkbox>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit" onClick={registred}> 
+          <Button type="primary" htmlType="submit" onClick={handleClick}> 
             Register
           </Button>
         </Form.Item>
       </Form>
-    );
+          
     </div>
   </div>
-  )
+    )
   }

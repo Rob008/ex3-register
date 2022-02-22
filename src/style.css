@@ -6,3 +6,8 @@
     margin: auto;
     margin-top: 20px;
 }
+
+#registerButton{
+    margin-left: 30px;
+    color: rgb(227, 236, 99);
+}
