@@ -34,10 +34,14 @@ export const LoginForm = () => {
     const json = localStorage.getItem("data");
     const loadedUsers = JSON.parse(json);
     const storgeUsername = loadedUsers.map(values=>values.nickname);
-    if (loadedUsers.map(values=>values.nickname==values.username)) {
+    console.log(loadedUsers.find(value=>value.nickname==values.username));
+
+    if (loadedUsers.find(value=>value.nickname==values.username)) {
         let passIndex = storgeUsername.indexOf(values.username);
             if (loadedUsers[passIndex].password==values.password) {
-                alert("You Are Login")
+                localStorage.setItem("token",Math.floor(Math.random() * 77777777));
+                console.log(localStorage.getItem("token"));
+                navigate("/main")
             }
             else alert("Wrong Password")
     }
@@ -115,7 +119,7 @@ export const LoginForm = () => {
         }}
       >
         <Button type="primary" htmlType="submit" >
-          Submit
+          Login 
         </Button>
         <Button type="primary" htmlType="submit" onClick={handleSubmit} id="registerButton">
           Registration
