@@ -26,12 +26,7 @@
     text-align: start;
     min-height: 50px;
 }
-.site-calendar-demo-card {
-    margin-top: 20px;
-    width: 340px;
-    border: 1px solid #f0f0f0;
-    border-radius: 2px;
-  }
+
 
 #submitButton{
 margin-top: 20px;
