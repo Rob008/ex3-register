@@ -5,12 +5,13 @@ import Form from "antd/lib/form";
 import { DatePicker } from 'antd';
 import 'antd/dist/antd.css';
 // localStorage.setItem('todo',JSON.stringify([{"title":"dd","description":"ads","date_picker":"2022-02-26T16:20:28.307Z"}]));
-export const ToDoInput = () =>{
+export const ToDoInput = (props) =>{
 
 
     const { TextArea } = Input;
 
     const [toDo,setToDo]=useState();
+    const [edValue,setEdValue]=useState();
         // console.log(localStorage.getItem("todo"));
 
       useEffect(()=>{
@@ -30,19 +31,23 @@ export const ToDoInput = () =>{
     //     // console.log(localStorage)
     //  },[toDo]);
 
-      const onFinish =(values)=>{
-        console.log('Success:', values);
-        setToDo([...toDo].concat(values));
-        console.log('Success:', toDo);
-        const json = JSON.stringify(toDo);
-        localStorage.setItem("todo",json);
-        // values.date =  values['date-picker'].format('YYYY-MM-DD HH:mm:ss')
-        // console.log(values);
-      }
+   
+
+      // const onFinish =(values)=>{
+      //   values.id=Date.now();
+      //   console.log('Success:', values);
+      //   setToDo([...toDo].concat(values));
+      //   console.log('Success:', toDo);
+      //   const json = JSON.stringify(toDo);
+      //   localStorage.setItem("todo",json);
+      //   // values.date =  values['date-picker'].format('YYYY-MM-DD HH:mm:ss')
+      //   // console.log(values);
+      // }
 
     return(
         <div className="mainInput">
             <Form
+            
             name="basic"
             labelCol={{
               span: 8,
@@ -53,14 +58,14 @@ export const ToDoInput = () =>{
             initialValues={{
               remember: true,
             }}
-            onFinish={onFinish}
+            onFinish={props.onFinish}
             autoComplete="off"
             //  onFinishFailed={onFinishFailed}
             >
                     <Form.Item
                     label="Title"
                     name="title"
-                    
+                    value="barrr"
                     rules={[
                     {
                     required: true,
@@ -68,7 +73,10 @@ export const ToDoInput = () =>{
                     },
                     ]}
                 >
-                <Input placeholder="Title" />
+                
+                <input placeholder="Title" value="jdjsd"></input>
+                
+                
                 </Form.Item>
 
                 <Form.Item

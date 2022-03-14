@@ -48,3 +48,20 @@ margin-top: 20px;
     flex-direction:inherit;
     width: fit-content;
 }
+
+#delete{
+    background-color: rgba(255, 0, 0, 0.824);
+}
+#delete:hover{
+    color: black;
+    background-color: rgb(255, 0, 0);
+}
+
+#editInput{
+    width: 100px;
+    height: 20px;
+}
+#editingInput{
+    margin: 10px;
+    
+}
