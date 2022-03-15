@@ -4,10 +4,13 @@ import "../style.css"
 import Form from "antd/lib/form";
 import { ToDoInput } from "./ToDoInput";
 import { ToDoShow } from "./ToDoShow";
+import { SearchInput } from "./SearchInput";
+
 
 export const Main = () =>{
 
     const [toDo, setToDo] = useState([]);
+    const [filteredTodos, setFilteredTodos] = useState([]);
 
     useEffect(() => {
         const json = localStorage.getItem("todo");
@@ -35,11 +38,17 @@ export const Main = () =>{
         setToDo([...toDo].concat(newTodo));
       }
 
+      const searchTodo=(value)=>{
+        let updatedTodos = [...toDo].filter((todo) => todo.title == value);
+        setFilteredTodos(updatedTodos);
+      }
+
 
 return(
     <div className="mainToDo">
         <ToDoInput onFinish={onFinish}/>
-        <ToDoShow toDo={toDo} setToDo={setToDo}/>
+        <ToDoShow toDo={toDo} setToDo={setToDo} filteredTodos={filteredTodos}/>
+        <SearchInput searchTodo={searchTodo}/>
     </div>
 )
     
