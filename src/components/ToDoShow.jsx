@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Input, Calendar, Button, Card } from 'antd';
+import React, { useState } from "react";
+import { Button } from 'antd';
 import "../style.css"
-import Form from "antd/lib/form";
 import { Typography } from 'antd';
 const { Title, Paragraph } = Typography;
 
@@ -16,6 +15,8 @@ export const ToDoShow = (props) => {
         console.log(item);
         let updatedTodos = [...props.toDo].filter((todo) => todo.id !== item);
         props.setToDo(updatedTodos);
+        let updatedFilteredTodos = [...props.filteredTodos].filter((todo) => todo.id !== item);
+        props.setFilteredTodos(updatedFilteredTodos);
 
         let toDostr = JSON.stringify(props.toDo);
         localStorage.setItem("todo", toDostr)
@@ -37,7 +38,7 @@ export const ToDoShow = (props) => {
     }
 
     return (
-
+        
         <div className="site-card-border-less-wrapper">
             {props.filteredTodos.length ?
                 props.filteredTodos.map((item) => (
@@ -47,8 +48,8 @@ export const ToDoShow = (props) => {
                         <p>{item.date_picker}</p>
 
                         <div id="changeButton">
-                            {editing ? <Button type="link" onClick={() => sumbitEditingTodo(item.id)}>Submit</Button> :
-                                <Button type="link" onClick={() => setEditing(true)}>Edit</Button>
+                            {editing ? <Button id="editingSubmitButton" type="link" onClick={() => sumbitEditingTodo(item.id)}>Submit</Button> :
+                                <Button id="editingButton" type="link" onClick={() => setEditing(true)}>Edit</Button>
                             }
                             <Button id="delete" onClick={() => handleSubmitDel(item.id)}>Delete</Button>
                         </div>
@@ -62,8 +63,8 @@ export const ToDoShow = (props) => {
                         <p>{item.date_picker}</p>
 
                         <div id="changeButton">
-                            {editing ? <Button type="link" onClick={() => sumbitEditingTodo(item.id)}>Submit</Button> :
-                                <Button type="link" onClick={() => setEditing(true)}>Edit</Button>
+                            {editing ? <Button id="editingSubmitButton"type="link" onClick={() => sumbitEditingTodo(item.id)}>Submit</Button> :
+                                <Button id="editingButton" type="link" onClick={() => setEditing(true)}>Edit</Button>
                             }
                             <Button id="delete" onClick={() => handleSubmitDel(item.id)}>Delete</Button>
                         </div>
